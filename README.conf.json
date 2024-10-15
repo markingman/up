@@ -1,0 +1,16 @@
+{
+	"to": "admin@valhalla.software",
+	"tick": 600,
+	"checks": ["06:00", "16:00"],
+	"smtp": {
+		"host" : "smtp.example.com",
+		"port" : 465,
+		"user" : "person@example.com",
+		"pass" : "*****"
+	},
+	"sites": [
+		{
+			"url": "https://example.com/"
+		}
+	]
+}
