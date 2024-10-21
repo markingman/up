@@ -183,7 +183,7 @@ func sendErrsEmail(config Config, results []Result) error {
 
 	lenErrs := 0
 	for _, result := range results {
-		if result.httpCode == 0 || !result.complete {
+		if result.httpCode != 200 || !result.complete {
 			body += result.url + "\n"
 			lenErrs++
 		}
@@ -291,7 +291,6 @@ func main() {
 	config := getConfig(configPath)
 
 	// run once on startup
-
 	if err := sendEmailUpActive(config); err != nil {
 		recover()
 		log.Println("Could not send initial is active email", err)
