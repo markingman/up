@@ -8,7 +8,11 @@ for VAR in NAME PROJECT HOST_ZONE HOST_REGION REPO SERVICE_ACCOUNT
 	do [ -z "${!VAR}" ] && echo "\nERROR: $VAR not set (expected to be in .env file)\n" && exit 1
 done
 
-# Function definitions
+CMDS="deploy, create, reset, update, ssh"
+
+if [ -z "$1" ]
+    then echo "nERROR: No command provided. Available commands: $CMDS" && exit 1
+fi
 
 deploy() {
     echo "Build image for Google Cloud Artifact Registry $PROJECT / $REPO / $NAME..."
@@ -88,14 +92,6 @@ ssh() {
 	gcloud compute ssh $NAME --project=$PROJECT --zone=$HOST_ZONE
 }
 
-
-# Check if a command was provided
-if [ -z "$1" ]; then
-    echo "Error: No command provided. Available commands: deploy, reset, update, ssh"
-    exit 1
-fi
-
-# Execute the appropriate function based on the command
 case "$1" in
     deploy)
         deploy
@@ -113,7 +109,6 @@ case "$1" in
         ssh
         ;;
     *)
-        echo "Error: Invalid command. Available commands: deploy, create, reset, update, ssh"
-        exit 1
+        echo "nERROR: Invalid command. Available commands: $CMDS" && exit 1
         ;;
 esac
