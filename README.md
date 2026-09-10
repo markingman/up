@@ -1,13 +1,33 @@
 # Go Uptime
 
-Simple uptime checking system.
+A simple uptime checking system.
 
-## Developer notes
+## Usage Overview
 
-Set config.json based on README.conf.json
+Create `conf.json` based on `README.conf.json`.
 
-For quickly running use `go run main.go`
+Create `.env` based on `README.env`.
 
-For quickly running tests use `go test`
+Run a quick live test:
 
-To build image see `Makefile`, e.g. `make build`, `make run`
+```bash
+set -a; source .env; set +a; go run main.go --config=./conf.json
+```
+
+Run the tests:
+
+```bash
+go test
+```
+
+Build and run the container image using the Makefile, for example:
+
+```bash
+make build
+make run
+```
+
+Deploying as an image to Google Cloud Artifact Registry:
+```bash
+sh ./deploy.sh --deploy
+```
