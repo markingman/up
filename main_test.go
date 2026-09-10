@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 )
 
 func TestCallURL(t *testing.T) {
@@ -45,5 +46,41 @@ func TestCallURL_Error(t *testing.T) {
 
 	if !result.complete {
 		t.Fatal("Expected result to be complete")
+	}
+}
+
+func TestNextConfirmTime(t *testing.T) {
+	now := time.Date(2026, 9, 10, 10, 0, 0, 0, time.Local)
+
+	tests := []struct {
+		name     string
+		schedule []string
+		expected time.Duration
+	}{
+		{
+			name:     "later today",
+			schedule: []string{"11:00"},
+			expected: time.Hour,
+		},
+		{
+			name:     "tomorrow",
+			schedule: []string{"09:00"},
+			expected: 23 * time.Hour,
+		},
+		{
+			name:     "earliest of multiple times",
+			schedule: []string{"15:00", "11:00", "18:00"},
+			expected: time.Hour,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := nextConfirmTime(now, test.schedule)
+
+			if got != test.expected {
+				t.Fatalf("Expected %v, got %v", test.expected, got)
+			}
+		})
 	}
 }
