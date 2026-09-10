@@ -16,7 +16,7 @@ build: ## Build a Docker image for local development
 	@docker build -t $(NAME) .
 
 run: ## Run the Docker image
-	@docker run -v `pwd`/disk:/app/data --name $(NAME) --env SMTP_PASSWD="${SMTP_PASSWD}" $(NAME)
+	@docker run -v `pwd`/disk:/app/data:ro --name $(NAME) --env SMTP_PASSWD="${SMTP_PASSWD}" $(NAME)
 
 start: ## Start Docker container to run tests (if container built and stopped)
 	@docker container start $(NAME)
