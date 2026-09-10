@@ -6,7 +6,7 @@
 		"host" : "smtp.example.com",
 		"port" : 465,
 		"user" : "person@example.com",
-		"pass" : "*****"
+		"_COMMENT": "pass as env var SMTP_PASSWD"
 	},
 	"sites": [
 		{
