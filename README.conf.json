@@ -10,7 +10,7 @@
 	},
 	"sites": [
 		{
-			"url": "https://example.com/"
+			"url": "https://example.com/health-check"
 		}
 	]
 }
