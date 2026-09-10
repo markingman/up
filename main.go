@@ -25,7 +25,7 @@ type SMTP struct {
 	Host string `json:"host"`
 	Port int    `json:"port"`
 	User string `json:"user"`
-	Pass string `json:"pass"`
+	Pass string `json:"-"`
 }
 
 type Site struct {
@@ -56,6 +56,8 @@ func getConfig(configPath string) Config {
 	if err = decoder.Decode(&config); err != nil {
 		log.Panic("Error decoding JSON:", err)
 	}
+
+	config.SMTP.Pass = os.Getenv("SMTP_PASSWD")
 
 	if config.To == "" {
 		log.Println("email recipient (To:) not set")
