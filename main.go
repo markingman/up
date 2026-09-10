@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,7 +12,7 @@ import (
 	"time"
 )
 
-const configPath = "/app/data/conf.json"
+const defaultConfigPath = "/app/data/conf.json"
 
 type Config struct {
 	To     string   `json:"to"`
@@ -290,7 +291,11 @@ func checkSites(config Config) {
 
 func main() {
 	log.Println("Loading config")
-	config := getConfig(configPath)
+
+	configPath := flag.String("config", defaultConfigPath, "path to configuration file")
+	flag.Parse()
+
+	config := getConfig(*configPath)
 
 	// run once on startup
 	if err := sendEmailUpActive(config); err != nil {
