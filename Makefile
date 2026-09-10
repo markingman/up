@@ -9,6 +9,9 @@ NAME=up
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ": ## "}; {printf "\033[36m%-28s\033[0m %s\n", $$1, $$2}' | sed 's/Makefile://g'
 
+disk: ## Create local data directory
+	@mkdir -p ./disk
+
 build: ## Build a Docker image for local development
 	@docker build -t $(NAME) .
 
