@@ -28,5 +28,4 @@ ssh: ## SSH to Docker container
 	@docker exec -it $(NAME) sh
 
 clean: ## Clean up
-	@docker stop $(NAME)
-	@docker rm $(NAME)
+	@docker rm -f $(NAME) 2>/dev/null || true
