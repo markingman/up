@@ -1,6 +1,12 @@
 # Go Uptime
 
-A simple uptime checking system.
+A simple website uptime checker.
+
+## Status
+
+This is a small utility library shared for convenience. Maintenance is best-effort and may be minimal.
+
+This repository is published for use and reference. External contributions are not currently being accepted.
 
 ## Usage Overview
 
@@ -28,6 +34,7 @@ make run
 ```
 
 Deploying as an image to Google Cloud Artifact Registry:
+
 ```bash
 sh ./deploy.sh --deploy
 ```
