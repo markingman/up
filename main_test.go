@@ -13,27 +13,37 @@ func TestCallURL(t *testing.T) {
 	}))
 	defer server.Close()
 
-	// Test the function with the test server URL
-	statusCode, err := callURL(server.URL)
+	ch := make(chan Result, 1)
 
-	if err != nil {
-		t.Fatalf("Expected no error, got %v", err)
+	// Test the function with the test server URL
+	callURL(server.URL, ch)
+	result := <-ch
+
+	if result.httpCode != http.StatusOK {
+		t.Fatalf("Expected status code %d, got %d", http.StatusOK, result.httpCode)
 	}
 
-	if statusCode != http.StatusOK {
-		t.Fatalf("Expected status code %d, got %d", http.StatusOK, statusCode)
+	if !result.complete {
+		t.Fatal("Expected result to be complete")
 	}
 }
 
 func TestCallURL_Error(t *testing.T) {
-	// Test the function with an invalid URL
-	statusCode, err := callURL("http://invalid-url")
+	// Create and immediately close a server so the request reliably fails
+	server := httptest.NewServer(nil)
+	url := server.URL
+	server.Close()
 
-	if err == nil {
-		t.Fatalf("Expected an error, got none")
+	ch := make(chan Result, 1)
+
+	callURL(url, ch)
+	result := <-ch
+
+	if result.httpCode != 0 {
+		t.Fatalf("Expected status code 0, got %d", result.httpCode)
 	}
 
-	if statusCode != 0 {
-		t.Fatalf("Expected status code 0, got %d", statusCode)
+	if !result.complete {
+		t.Fatal("Expected result to be complete")
 	}
 }
