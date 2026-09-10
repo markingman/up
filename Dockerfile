@@ -1,6 +1,6 @@
 FROM golang:1.27 AS build
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY main.go .
 COPY go.mod .
@@ -11,6 +11,6 @@ FROM alpine:3.24
 
 WORKDIR /app
 
-COPY --from=build /app/app .
+COPY --from=build /usr/src/app/app .
 
 CMD ["./app"]
